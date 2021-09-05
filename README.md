@@ -11,8 +11,7 @@ cd starcoin-sdk-python
 python setup.py install
 ```
 
-twint
-use the local code, pip source would't work
+twint with the local code, source of pip doesn't work
 
 
 ## 2. Config
