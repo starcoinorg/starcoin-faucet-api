@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS `faucet`;
+
 CREATE TABLE `faucet` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`network` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
