@@ -5,10 +5,11 @@
 pip install -r requirement.txt
 ```
 
-starcoin-sdk init
+init starcoin-sdk-python
 ```shell
 cd starcoin-sdk-python
 python setup.py install
+cd ..
 ```
 
 twint with the local code, source of pip doesn't work
@@ -23,7 +24,7 @@ export PYTHONPATH=`project path`
 #
 
 # 1. config : mysql、redis etc
-copy scripts/env.sh.test scripts/env.sh
+cp scripts/env.sh.test scripts/env.sh
 
 # 2. source （ must run ）
 source ./scripts/env.sh
