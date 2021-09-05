@@ -21,12 +21,12 @@ env
 ```shell
 export PATH=$PATH:`python local bin`
 export PYTHONPATH=`project path`
-# must run in every terminal
+#
 
 # 1. config : mysql、redis etc
 copy scripts/env.sh.test scripts/env.sh
 
-# 2. source
+# 2. source （ must run ）
 source ./scripts/env.sh
 ```
 

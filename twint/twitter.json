@@ -1,0 +1,173 @@
+{
+    "globalObjects": {
+        "tweets": {
+            "1432541403289030657": {
+                "created_at": "Tue Aug 31 03:11:00 +0000 2021",
+                "id": 1432541403289030700,
+                "id_str": 1432541403289030700,
+                "full_text": "nothing",
+                "truncated": false,
+                "display_text_range": [
+                    0,
+                    7
+                ],
+                "entities": {
+                    "hashtags": [],
+                    "symbols": [],
+                    "user_mentions": [],
+                    "urls": []
+                },
+                "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                "in_reply_to_status_id": null,
+                "in_reply_to_status_id_str": null,
+                "in_reply_to_user_id": null,
+                "in_reply_to_user_id_str": null,
+                "in_reply_to_screen_name": null,
+                "user_id": 995984632540639200,
+                "user_id_str": 995984632540639200,
+                "geo": null,
+                "coordinates": null,
+                "place": null,
+                "contributors": null,
+                "is_quote_status": false,
+                "retweet_count": 0,
+                "favorite_count": 0,
+                "reply_count": 0,
+                "quote_count": 0,
+                "conversation_id": 1432541403289030700,
+                "conversation_id_str": 1432541403289030700,
+                "favorited": false,
+                "retweeted": false,
+                "lang": "en",
+                "supplemental_language": null
+            }
+        },
+        "users": {
+            "995984632540639232": {
+                "id": 995984632540639200,
+                "id_str": 995984632540639200,
+                "name": "W.Z",
+                "screen_name": "WZ03977673",
+                "location": "",
+                "description": "",
+                "url": null,
+                "entities": {
+                    "description": {
+                        "urls": []
+                    }
+                },
+                "protected": false,
+                "followers_count": 0,
+                "fast_followers_count": 0,
+                "normal_followers_count": 0,
+                "friends_count": 43,
+                "listed_count": 0,
+                "created_at": "Mon May 14 11:10:15 +0000 2018",
+                "favourites_count": 1,
+                "utc_offset": null,
+                "time_zone": null,
+                "geo_enabled": false,
+                "verified": false,
+                "statuses_count": 2,
+                "media_count": 0,
+                "lang": null,
+                "contributors_enabled": false,
+                "is_translator": false,
+                "is_translation_enabled": false,
+                "profile_background_color": "F5F8FA",
+                "profile_background_image_url": null,
+                "profile_background_image_url_https": null,
+                "profile_background_tile": false,
+                "profile_image_url": "http://pbs.twimg.com/profile_images/1434006155261452288/KrkrGnc__normal.jpg",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/1434006155261452288/KrkrGnc__normal.jpg",
+                "profile_image_extensions_media_availability": null,
+                "profile_image_extensions_alt_text": null,
+                "profile_link_color": "1DA1F2",
+                "profile_sidebar_border_color": "C0DEED",
+                "profile_sidebar_fill_color": "DDEEF6",
+                "profile_text_color": 333333,
+                "profile_use_background_image": true,
+                "has_extended_profile": false,
+                "default_profile": true,
+                "default_profile_image": false,
+                "pinned_tweet_ids": [],
+                "pinned_tweet_ids_str": [],
+                "has_custom_timelines": false,
+                "following": null,
+                "follow_request_sent": null,
+                "notifications": null,
+                "advertiser_account_type": "none",
+                "advertiser_account_service_levels": [],
+                "business_profile_state": "none",
+                "translator_type": "none",
+                "withheld_in_countries": [],
+                "require_some_consent": false
+            }
+        },
+        "moments": {},
+        "cards": {},
+        "places": {},
+        "media": {},
+        "broadcasts": {},
+        "topics": {},
+        "lists": {}
+    },
+    "timeline": {
+        "id": "search-6839930090521655895",
+        "instructions": [
+            {
+                "addEntries": {
+                    "entries": [
+                        {
+                            "entryId": "sq-I-t-1432541403289030657",
+                            "sortIndex": 999980,
+                            "content": {
+                                "item": {
+                                    "content": {
+                                        "tweet": {
+                                            "id": 1432541403289030700,
+                                            "displayType": "Tweet"
+                                        }
+                                    },
+                                    "clientEventInfo": {
+                                        "component": "result",
+                                        "element": "tweet",
+                                        "details": {
+                                            "timelinesDetails": {
+                                                "controllerData": "DAACDAAFDAABDAABDAABCgABAAAAAAAAAAAAAAwAAgoAAQAAAAAAAAAACgACqAN4XSAfjJ0LAAMAAAAPZnJvbTpXWjAzOTc3NjczAAAAAAA="
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "entryId": "sq-cursor-top",
+                            "sortIndex": 999999999,
+                            "content": {
+                                "operation": {
+                                    "cursor": {
+                                        "value": "refresh:thGAVUV0VFVBaCwKjRn7S04ScWgsCo0Z-0tOEnEnEV2Ih6FYCJehgHREVGQVVMVDUBFQAVAAA=",
+                                        "cursorType": "Top"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "entryId": "sq-cursor-bottom",
+                            "sortIndex": 0,
+                            "content": {
+                                "operation": {
+                                    "cursor": {
+                                        "value": "scroll:thGAVUV0VFVBaCwKjRn7S04ScWgsCo0Z-0tOEnEnEV2Ih6FYCJehgHREVGQVVMVDUBFQAVAAA=",
+                                        "cursorType": "Bottom"
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
