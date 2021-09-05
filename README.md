@@ -15,11 +15,11 @@ cd ..
 twint with the local code, source of pip doesn't work
 
 
-## 2. Config
+## 2. config
 
 env
 ```shell
-export PATH=$PATH:`python local bin`
+export PATH=$PATH:$HOME/.local/bin
 export PYTHONPATH=`project path`
 #
 
