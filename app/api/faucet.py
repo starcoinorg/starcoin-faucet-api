@@ -6,7 +6,7 @@ from app.models.faucet import Faucet as FaucetModel
 from app.utils import get_twitter_username, get_platform, validate_url, normalise_query_string
 from app.services import faucet_service
 from app.crud import faucet_crud
-from app.schemes.faucet import Faucet, FaucetNetwork, FaucetAmount, FaucetByPlatform, FaucetPlatform
+from app.schemes.faucet import Faucet, FaucetNetwork, FaucetAmount, FaucetNetworkMap, FaucetOutList
 from typing import List
 from app.db.redis import redis_cache
 from fastapi.encoders import jsonable_encoder
@@ -46,23 +46,22 @@ async def create(url: str, network: str = FaucetNetwork.default, db: Session = D
 
 # response_model=List[FaucetByPlatform]
 @router.get("/recently", name="")
-async def recently(platform: str, db: Session = Depends(deps.get_db)):
+async def recently(network: str, db: Session = Depends(deps.get_db)):
 
-    platform = get_platform(platform)
-    if not platform:
+    if not network or network not in FaucetNetworkMap.__members__:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Wrong platform")
 
-    key = f'recently:{platform}'
+    key = f'recently:{network}'
 
     items = await redis_cache.get(key)
     if items:
         return json.loads(items)
 
-    items = faucet_crud.faucet.get_recently_by_platform(db=db, platform=platform)
+    items = faucet_crud.faucet.get_recently_by_network(db=db, network=network)
 
     rtn = []
     for item in items:
-        rtn.append(FaucetByPlatform(transfered_txn=item.transfered_txn).dict())
+        rtn.append(FaucetOutList(address=item.address, network=item.network, transfered_txn=item.transfered_txn).dict())
 
     await redis_cache.set((key), json.dumps(rtn), 2 * 60)
 

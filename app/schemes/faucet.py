@@ -13,7 +13,7 @@ class Faucet(BaseModel):
     platform: Optional[str] = Field(None, title="platform")
     url: Optional[str] = Field(None, title="url")
     amount: Optional[str] = Field(0, title="amount")
-    
+
     class Config:
         orm_mode = True
 
@@ -28,8 +28,10 @@ class FaucetUpdate(FaucetBase):
     transferd_txn: Optional[str] = Field(None, title="transferd_txn")
 
 # ---------------- resp -----------------------
-class FaucetByPlatform(FaucetBase):
+class FaucetOutList(FaucetBase):
     transfered_txn: str = Field(None, title="transferd_txn")
+    address: Optional[str] = Field(None, title="address")
+    network: Optional[str] = Field(None, title="network")
 
     class Config:
         orm_mode = True

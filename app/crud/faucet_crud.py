@@ -49,11 +49,11 @@ class CRUDFaucet(CRUDBase[Faucet, FaucetCreate,FaucetUpdate]):
         ))
         return q.count()
 
-     def get_recently_by_platform(self, db: Session, *, platform: str, page_num: int = 1, page_size: int = 20) -> List[Faucet]:
+     def get_recently_by_network(self, db: Session, *, network: str, page_num: int = 1, page_size: int = 20) -> List[Faucet]:
         q = db.query(self.model)
 
         q = q.filter(
-            Faucet.platform == platform
+            Faucet.network == network
         )
         q= q.filter(
             Faucet.status == FaucetStatus.success.value
