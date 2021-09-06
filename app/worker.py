@@ -105,11 +105,11 @@ def p2p_tranfer(network ,address, amount):
     # debug
     # !!! debug
     if settings.DEBUG:
-        amount = 1024 # 
-        reciever_address = "0x4c7afc223df1d47072194dcefe26a445"
+        amount = 1024
     else:
         amount = amount * 1000000000
-        reciever_address = address
+
+    reciever_address = address
 
     # sender
     private_key = Ed25519PrivateKey.from_private_bytes(
