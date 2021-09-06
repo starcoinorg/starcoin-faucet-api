@@ -56,7 +56,7 @@ def scrape_twitter(self, id, url, created_at):
             faucet_crud.faucet.update(db, db_obj=faucet,obj_in={"status": FaucetStatus.fail.value})
             return False, id, "none address found"
 
-        count = faucet_crud.faucet.get_day_count_by_address(db=db, address=address, platform=faucet.platform, since=datetime.fromtimestamp(created_at))
+        count = faucet_crud.faucet.get_day_count_by_address(db=db, network=faucet.network, address=address, since=datetime.fromtimestamp(created_at))
         logger.info(f'address count:{count} {datetime.fromtimestamp(created_at)} {faucet.platform}')
         if count > 0:
             faucet_crud.faucet.update(db, db_obj=faucet,obj_in={"status": FaucetStatus.coin_already_transfered.value})

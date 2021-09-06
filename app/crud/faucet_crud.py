@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 
 
 class CRUDFaucet(CRUDBase[Faucet, FaucetCreate,FaucetUpdate]):
-     def get_day_count_by_address(self, db: Session, *, address: str, platform: str, since: datetime) -> int:
+     def get_day_count_by_address(self, db: Session, *, address: str, network:str, since: datetime) -> int:
         q = db.query(self.model)
 
         since = since.date()
@@ -20,7 +20,7 @@ class CRUDFaucet(CRUDBase[Faucet, FaucetCreate,FaucetUpdate]):
             Faucet.address == address
         )
         q = q.filter(
-            Faucet.platform == platform
+            Faucet.network == network
         ) 
         q = q.filter(and_(
             Faucet.transfered_at > since,
