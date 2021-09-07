@@ -2,7 +2,7 @@
 
 ## 1. install
 ```shell
-pip install -r requirement.txt
+pip install -r requirements.txt
 ```
 
 init starcoin-sdk-python
