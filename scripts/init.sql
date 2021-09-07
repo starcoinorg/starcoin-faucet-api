@@ -5,7 +5,7 @@ CREATE TABLE `faucet` (
 	`network` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`platform` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`address` VARCHAR(128) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-	`status` INT(11) NULL DEFAULT NULL,
+	`status` INT(11) NULL DEFAULT NULL COMMENT '0:init,20:success,21:coin_success,40:fail,41:coin_fail,42:coin_already_transfered',
 	`url` VARCHAR(128) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`amount` BIGINT(20) NULL DEFAULT NULL,
 	`transfered_txn` VARCHAR(128) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
