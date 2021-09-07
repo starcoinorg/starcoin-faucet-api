@@ -1,6 +1,6 @@
 #!/bin/bash
 CURDIR=$(cd "$(dirname "$0")"; pwd)
-docker run -d --name starcoin-faucet-api-server -p 8000:8000 \
+docker run -d --name starcoin-faucet-api-worker \
     -e "STARCOIN_FAUCET_DEBUG=${STARCOIN_FAUCET_DEBUG}" \
     -e "STARCOIN_FAUCET_CELERY_REDIS_BROKER_ADDRESS=${STARCOIN_FAUCET_CELERY_REDIS_BROKER_ADDRESS}" \
     -e "STARCOIN_FAUCET_CELERY_REDIS_BACKEND_ADDRESS=${STARCOIN_FAUCET_CELERY_REDIS_BACKEND_ADDRESS}" \
@@ -9,7 +9,7 @@ docker run -d --name starcoin-faucet-api-server -p 8000:8000 \
     -e "STARCOIN_FAUCET_PRIVATE_KEY_BARNARD=${STARCOIN_FAUCET_PRIVATE_KEY_BARNARD}" \
     -e "STARCOIN_FAUCET_PRIVATE_KEY_PROXIMA=${STARCOIN_FAUCET_PRIVATE_KEY_PROXIMA}" \
     -e "STARCOIN_FAUCET_PRIVATE_KEY_HALLEY=${STARCOIN_FAUCET_PRIVATE_KEY_HALLEY}" \
-    starcoin/starcoin-faucet-api-server:latest
+    starcoin/starcoin-faucet-api-worker:latest
 
 docker ps
 

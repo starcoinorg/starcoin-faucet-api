@@ -1,4 +1,4 @@
-# 
+# development
 
 ## 1. install
 ```shell
@@ -52,3 +52,11 @@ cd scripts && ./celery_flower.sh
 # links
 swagger api： http://localhost:8000/docs
 celery flower: http://127.0.0.1:5555/
+
+
+# CI/CD
+## run server in docker
+docker/server/README.md
+
+## run worker in docker
+docker/worker/README.md
