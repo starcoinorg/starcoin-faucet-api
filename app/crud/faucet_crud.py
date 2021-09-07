@@ -9,8 +9,8 @@ from app.db.base_class import Page
 from datetime import datetime, timedelta
 
 
-class CRUDFaucet(CRUDBase[Faucet, FaucetCreate,FaucetUpdate]):
-    def get_day_count_by_address(self, db: Session, *, address: str, network:str, since: datetime) -> int:
+class CRUDFaucet(CRUDBase[Faucet, FaucetCreate, FaucetUpdate]):
+    def get_day_count_by_address(self, db: Session, *, address: str, network: str, since: datetime) -> int:
         q = db.query(self.model)
 
         since = since.date()
@@ -21,13 +21,13 @@ class CRUDFaucet(CRUDBase[Faucet, FaucetCreate,FaucetUpdate]):
         )
         q = q.filter(
             Faucet.network == network
-        ) 
+        )
         q = q.filter(and_(
             Faucet.transfered_at > since,
             Faucet.transfered_at < until,
         ))
         return q.count()
-    
+
     def get_day_count_by_user(self, db: Session, *, url: str, platform: str, network: str) -> int:
         q = db.query(self.model)
 
@@ -39,10 +39,10 @@ class CRUDFaucet(CRUDBase[Faucet, FaucetCreate,FaucetUpdate]):
         )
         q = q.filter(
             Faucet.platform == platform
-        ) 
+        )
         # q = q.filter(
         #     Faucet.network == network
-        # ) 
+        # )
         q = q.filter(and_(
             Faucet.created_at > since,
             Faucet.created_at < until,
@@ -55,7 +55,7 @@ class CRUDFaucet(CRUDBase[Faucet, FaucetCreate,FaucetUpdate]):
         q = q.filter(
             Faucet.network == network
         )
-        q= q.filter(
+        q = q.filter(
             Faucet.status == FaucetStatus.success.value
         )
         q = q.filter(
@@ -65,15 +65,16 @@ class CRUDFaucet(CRUDBase[Faucet, FaucetCreate,FaucetUpdate]):
             Faucet.transfered_at.desc()
         )
         return q.limit(5).all()
-        
+
     def get_recent_one_by_status(self, db: Session, *, status) -> Faucet:
         q = db.query(self.model)
-        q= q.filter(
+        q = q.filter(
             Faucet.status == status
         )
         q = q.order_by(
-            Faucet.created_at.desc()
+            Faucet.created_at.asc()
         )
         return q.first()
+
 
 faucet = CRUDFaucet(Faucet)
