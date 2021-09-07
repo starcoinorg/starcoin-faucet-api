@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 
 
 class CRUDFaucet(CRUDBase[Faucet, FaucetCreate,FaucetUpdate]):
-     def get_day_count_by_address(self, db: Session, *, address: str, network:str, since: datetime) -> int:
+    def get_day_count_by_address(self, db: Session, *, address: str, network:str, since: datetime) -> int:
         q = db.query(self.model)
 
         since = since.date()
@@ -28,7 +28,7 @@ class CRUDFaucet(CRUDBase[Faucet, FaucetCreate,FaucetUpdate]):
         ))
         return q.count()
     
-     def get_day_count_by_user(self, db: Session, *, url: str, platform: str, network: str) -> int:
+    def get_day_count_by_user(self, db: Session, *, url: str, platform: str, network: str) -> int:
         q = db.query(self.model)
 
         since = datetime.now().date()
@@ -49,7 +49,7 @@ class CRUDFaucet(CRUDBase[Faucet, FaucetCreate,FaucetUpdate]):
         ))
         return q.count()
 
-     def get_recently_by_network(self, db: Session, *, network: str, page_num: int = 1, page_size: int = 20) -> List[Faucet]:
+    def get_recently_by_network(self, db: Session, *, network: str, page_num: int = 1, page_size: int = 20) -> List[Faucet]:
         q = db.query(self.model)
 
         q = q.filter(
@@ -64,8 +64,16 @@ class CRUDFaucet(CRUDBase[Faucet, FaucetCreate,FaucetUpdate]):
         q = q.order_by(
             Faucet.transfered_at.desc()
         )
-        
         return q.limit(5).all()
-        #return paginate(query=q, page_num=page_num, page_size=page_size)
+        
+    def get_recent_one_by_status(self, db: Session, *, status) -> Faucet:
+        q = db.query(self.model)
+        q= q.filter(
+            Faucet.status == status
+        )
+        q = q.order_by(
+            Faucet.created_at.desc()
+        )
+        return q.first()
 
 faucet = CRUDFaucet(Faucet)
