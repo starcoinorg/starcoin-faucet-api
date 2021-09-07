@@ -16,7 +16,7 @@ class Faucet(Base):
     amount = Column(BigInteger, default=0, nullable=True)
     transfered_txn = Column(String(128), nullable=True)
     transfered_at = Column(DateTime, nullable=True)
-    created_at = Column(DateTime, default=datetime.datetime.now)
-    updated_at = Column(DateTime, default=datetime.datetime.now, onupdate=datetime.datetime.now)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
 
     Index('ix_faucet_platform_transfered_at_status', platform, transfered_at, status)

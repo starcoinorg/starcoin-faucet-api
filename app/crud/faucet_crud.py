@@ -31,8 +31,8 @@ class CRUDFaucet(CRUDBase[Faucet, FaucetCreate,FaucetUpdate]):
     def get_day_count_by_user(self, db: Session, *, url: str, platform: str, network: str) -> int:
         q = db.query(self.model)
 
-        since = datetime.now().date()
-        until = datetime.now().date() + timedelta(days=1)
+        since = datetime.utcnow().date()
+        until = datetime.utcnow().date() + timedelta(days=1)
 
         q = q.filter(
             Faucet.url == url
@@ -59,7 +59,7 @@ class CRUDFaucet(CRUDBase[Faucet, FaucetCreate,FaucetUpdate]):
             Faucet.status == FaucetStatus.success.value
         )
         q = q.filter(
-            Faucet.transfered_at > datetime.now() - timedelta(days=1)
+            Faucet.transfered_at > datetime.utcnow() - timedelta(days=1)
         )
         q = q.order_by(
             Faucet.transfered_at.desc()

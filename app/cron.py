@@ -18,7 +18,6 @@ from sqlalchemy.orm import Session
 
 
 def scrape_twitter(id, url, created_at, db: Session, faucet):
-    logger.info("scrape_twitter")
 
     # twint
     username = get_twitter_username(url)
@@ -27,12 +26,15 @@ def scrape_twitter(id, url, created_at, db: Session, faucet):
     until = created_at.date() + timedelta(days=1)
     c = twint.Config()
     c.Username = username
-    #c.Debug=True
+    c.Debug=True
+    #c.Limit=50
     c.Store_csv = True 
     c.Output = filename 
     c.Since = since.strftime("%Y-%m-%d")
     c.Until = until.strftime("%Y-%m-%d")
     twint.run.Search(c)
+
+    logger.info(f'scrape_twitter {since.strftime("%Y-%m-%d")} {until.strftime("%Y-%m-%d")}')
 
     # file
     address = get_address_from_csv(url, filename)
@@ -63,8 +65,8 @@ def scrape_twitter(id, url, created_at, db: Session, faucet):
     try:    
         txn = p2p_tranfer(faucet.network, address, faucet.amount)
         logger.info(f'id since address : {txn}')
-        logger.info({"address": address, "status": FaucetStatus.success.value, "transfered_txn": txn, "transafered_at": datetime.now() })
-        faucet_crud.faucet.update(db, db_obj=faucet,obj_in={"address": address, "status": FaucetStatus.success.value, "transfered_txn": txn, "transfered_at": datetime.now() })
+        logger.info({"address": address, "status": FaucetStatus.success.value, "transfered_txn": txn, "transafered_at": datetime.utcnow() })
+        faucet_crud.faucet.update(db, db_obj=faucet,obj_in={"address": address, "status": FaucetStatus.success.value, "transfered_txn": txn, "transfered_at": datetime.utcnow() })
     except Exception as exc:
         logger.exception(f"{faucet.id} transfer coin error")
         faucet_crud.faucet.update(db, db_obj=faucet,obj_in={"status": FaucetStatus.coin_fail.value})
