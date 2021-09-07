@@ -104,3 +104,4 @@ ENV/
 *.prod
 
 env.sh
+.DS_Store
