@@ -20,6 +20,5 @@ app.add_middleware(
 #
 app.include_router(faucet.router, prefix='')
 #
-app.add_event_handler("startup", redis_cache.init_cache)
-app.add_event_handler("shutdown", redis_cache.close)
-
+# app.add_event_handler("startup", redis_cache.init_cache)
+# app.add_event_handler("shutdown", redis_cache.close)
