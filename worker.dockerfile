@@ -1,12 +1,14 @@
 FROM python:3.8
 
-ADD app /data/app
-COPY requirements.txt /data/app
-RUN pip install -r /data/app/requirements.txt
+ADD . /app
+RUN pip install -r /app/requirements.txt
 
-WORKDIR /data
+WORKDIR /app/starcoin-sdk-python
+RUN python setup.py install
+
+WORKDIR /app
 
 ENV C_FORCE_ROOT True
-ENV PYTHONPATH /data
+ENV PYTHONPATH /app
 
 ENTRYPOINT celery worker -A app.worker -E --loglevel=info
