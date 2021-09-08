@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: faucet-api-deployment
+  labels:
+    app: faucet-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: faucet-api
+  template:
+    metadata:
+      labels:
+        app: faucet-api
+    spec:
+      containers:
+        - name: faucet-api
+          image: starcoin/starcoin-faucet-api:0.1.0
+          ports:
+            - containerPort: 8000
+          env:
+            - name: STARCOIN_FAUCET_DEBUG
+              value: "False"
+            - name: STARCOIN_FAUCET_MYSQL_HOST
+              value: "starcoin-db-2.c0bz9kehdvnb.ap-northeast-1.rds.amazonaws.com"
+            - name: STARCOIN_FAUCET_MYSQL_PORT
+              value: "3306"  
+            - name: STARCOIN_FAUCET_MYSQL_DB
+              value: "faucet"
+            - name: STARCOIN_FAUCET_MYSQL_USER
+              value: "starcoin"
+            - name: STARCOIN_FAUCET_MYSQL_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-pwd
+                  key: password
+            - name: STARCOIN_FAUCET_PRIVATE_KEY_BARNARD
+              valueFrom:
+                secretKeyRef:
+                  name: privatekey-barnard
+                  key: password
+            - name: STARCOIN_FAUCET_PRIVATE_KEY_PROXIMA
+              valueFrom:
+                secretKeyRef:
+                  name: privatekey-proxima
+                  key: password
+            - name: STARCOIN_FAUCET_PRIVATE_KEY_HALLEY
+              valueFrom:
+                secretKeyRef:
+                  name: privatekey-halley
+                  key: password                  
