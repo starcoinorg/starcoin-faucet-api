@@ -2,7 +2,7 @@
 
 set -e
 
-IMAGE_NAME="starcoin/starcoin-faucet-api-cron"
+IMAGE_NAME="starcoin/starcoin-faucet-cron"
 IMAGE_LATEST_TAG=$IMAGE_NAME:latest
 
 echo "=== Building  image ${IMAGE_LATEST_TAG} ==="

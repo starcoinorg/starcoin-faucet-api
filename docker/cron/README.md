@@ -1,4 +1,4 @@
-## docker starcoin-faucet-api-cron
+## docker starcoin-faucet-cron
 
 1. stop container，delete old container
 
@@ -14,7 +14,7 @@
 
 4. check log
 
-`docker logs -f starcoin-faucet-api-cron`
+`docker logs -f starcoin-faucet-cron`
 
 5. One-click for all above
 
