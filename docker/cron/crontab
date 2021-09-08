@@ -1,0 +1,2 @@
+#run python script every minutes
+* * * * * root /usr/local/bin/python /app/app/cron.py >> /app/cron.log 2>&1
