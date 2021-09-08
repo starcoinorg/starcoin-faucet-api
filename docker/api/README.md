@@ -1,4 +1,4 @@
-## docker starcoin-faucet-api-server
+## docker starcoin-faucet-api
 
 1. stop container，delete old container
 
@@ -14,7 +14,7 @@
 
 4. check log
 
-`docker logs -f starcoin-faucet-api-server`
+`docker logs -f starcoin-faucet-api`
 
 5. One-click for all above
 

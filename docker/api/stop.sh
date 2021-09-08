@@ -1,6 +1,6 @@
 #!/bin/bash
 
 echo "=== container stopping ==="
-docker stop starcoin-faucet-api-server
-docker rm  starcoin-faucet-api-server
+docker stop starcoin-faucet-api
+docker rm  starcoin-faucet-api
 echo "=== container stopped ==="

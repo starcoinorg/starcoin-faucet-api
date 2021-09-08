@@ -3,4 +3,4 @@
 ./stop.sh
 ./build.sh
 ./run.sh
-docker logs -f starcoin-faucet-api-server
+docker logs -f starcoin-faucet-api
