@@ -36,15 +36,15 @@ spec:
             - name: STARCOIN_FAUCET_PRIVATE_KEY_BARNARD
               valueFrom:
                 secretKeyRef:
-                  name: privatekey-barnard
-                  key: password
+                  name: faucet-account
+                  key: privatekey
             - name: STARCOIN_FAUCET_PRIVATE_KEY_PROXIMA
               valueFrom:
                 secretKeyRef:
-                  name: privatekey-proxima
-                  key: password
+                  name: faucet-account
+                  key: privatekey
             - name: STARCOIN_FAUCET_PRIVATE_KEY_HALLEY
               valueFrom:
                 secretKeyRef:
-                  name: privatekey-halley
-                  key: password                  
+                  name: faucet-account
+                  key: privatekey                 
