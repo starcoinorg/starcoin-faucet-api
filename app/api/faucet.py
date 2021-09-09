@@ -4,14 +4,14 @@ from sqlalchemy.orm import Session
 from app import deps
 from app.models.faucet import Faucet as FaucetModel
 from app.utils import get_twitter_username, get_platform, validate_url, normalise_query_string
-from app.services import faucet_service
+# from app.services import faucet_service
 from app.crud import faucet_crud
 from app.schemes.faucet import Faucet, FaucetNetwork, FaucetAmount, FaucetNetworkMap, FaucetOutList
-from typing import List
-from app.db.redis import redis_cache
-from fastapi.encoders import jsonable_encoder
-import json
-import os
+# from typing import List
+# from app.db.redis import redis_cache
+# from fastapi.encoders import jsonable_encoder
+# import json
+# import os
 
 router = APIRouter()
 
@@ -45,7 +45,7 @@ async def create(url: str, network: str = FaucetNetwork.default, db: Session = D
                     amount=FaucetAmount[FaucetNetwork.default].value["num"])
     # print(obj_in)
     item = faucet_crud.faucet.create(db=db, obj_in=obj_in)
-    await faucet_service.scrape(platform=platform, id=item.id, url=url, created_at=item.created_at)
+    # await faucet_service.scrape(platform=platform, id=item.id, url=url, created_at=item.created_at)
 
     return {"status": item.status}
 
