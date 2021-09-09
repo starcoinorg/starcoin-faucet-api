@@ -9,7 +9,7 @@ spec:
   - port: 80
     name: http
     protocol: TCP
-    targetPort: 80000
+    targetPort: 8000
   selector:
     app: faucet-api
   type: LoadBalancer

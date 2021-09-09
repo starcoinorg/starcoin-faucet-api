@@ -4,18 +4,18 @@
 kubectl apply -f ./faucet-api-deployment.yaml
 
 ## check pods
-$kubectl get pods                       
+kubectl get pods                       
 NAME                                               READY   STATUS    RESTARTS   AGE
-faucet-api-deployment-847564d655-j8xpw            1/1     Running   0          7m16s
+faucet-api-deployment-6bd5b7d999-mmk47            1/1     Running   0          52s
 
 ## check logs
-kubectl logs -f faucet-api-deployment-847564d655-j8xpw
+kubectl logs -f faucet-api-deployment-6bd5b7d999-mmk47
 
 ## start service
 kubectl apply -f ./service-faucet-api.yaml
 
 ## check service 
-$kubectl get services 
+kubectl get services 
 NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP             PORT(S)        AGE
 faucet-api            LoadBalancer   xxxx             xxx.elb.amazonaws.com   80:30570/TCP   4m48s
 
