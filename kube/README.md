@@ -27,9 +27,9 @@ faucet-api            LoadBalancer   xxxx             xxx.elb.amazonaws.com   80
 kubectl apply -f ./faucet-cron-deployment.yaml
 
 ## check pods
-$kubectl get pods                       
+kubectl get pods                       
 NAME                                               READY   STATUS    RESTARTS   AGE
-faucet-cron-deployment-847564d655-j8xpw            1/1     Running   0          7m16s
+faucet-cron-deployment-54cc7476bd-l76rr            1/1     Running   0          7m16s
 
 ## check logs
-kubectl logs -f faucet-cron-deployment-847564d655-j8xpw
+kubectl logs -f faucet-cron-deployment-54cc7476bd-l76rr
