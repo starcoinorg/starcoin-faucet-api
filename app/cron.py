@@ -77,9 +77,7 @@ def scrape_twitter(id, url, created_at, db: Session, faucet):
                                   "address": address, "status": FaucetStatus.success.value, "transfered_txn": txn, "transfered_at": datetime.utcnow()})
     except Exception as exc:
         logger.exception(f"{faucet.id} transfer coin error")
-        faucet_crud.faucet.update(db, db_obj=faucet, obj_in={
-                                  "status": FaucetStatus.coin_fail.value})
-        return False, id, "transfer coin error"
+        raise exc
 
     # gc
     if os.path.exists(filename):
@@ -157,6 +155,13 @@ if __name__ == "__main__":
         if faucet is None:
             logger.info('no record found')
         else:
-            t = scrape_twitter(faucet.id, faucet.url,
-                               faucet.created_at, db, faucet)
-            logger.info(t)
+            try:
+                t = scrape_twitter(faucet.id, faucet.url,
+                                faucet.created_at, db, faucet)
+                logger.info(t)
+            except Exception as exc:
+                logger.exception(f"{faucet.id} transfer coin error")
+                faucet_crud.faucet.update(db, db_obj=faucet, obj_in={
+                                        "status": FaucetStatus.coin_fail.value})
+                logger.error(exc)
+
