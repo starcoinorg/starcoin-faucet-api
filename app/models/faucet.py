@@ -1,6 +1,7 @@
 from datetime import datetime
 from enum import auto
 from sqlalchemy import Boolean, Column, Integer, String, BigInteger, DateTime, Index
+from sqlalchemy.sql.sqltypes import SmallInteger
 
 from app.db.base_class import Base
 import datetime
@@ -16,6 +17,7 @@ class Faucet(Base):
     amount = Column(BigInteger, default=0, nullable=True)
     transfered_txn = Column(String(128), nullable=True)
     transfered_at = Column(DateTime, nullable=True)
+    retry = Column(SmallInteger, default=0, nullable=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
 

@@ -15,6 +15,7 @@ from app.core import celeryconfig
 from app.db.session import SessionLocal
 from app.schemes.faucet import FaucetUpdate, FaucetStatus
 from sqlalchemy.orm import Session
+import sys
 
 
 def scrape_twitter(id, url, created_at, db: Session, faucet):
@@ -77,7 +78,9 @@ def scrape_twitter(id, url, created_at, db: Session, faucet):
                                   "address": address, "status": FaucetStatus.success.value, "transfered_txn": txn, "transfered_at": datetime.utcnow()})
     except Exception as exc:
         logger.exception(f"{faucet.id} transfer coin error")
-        raise exc
+        faucet_crud.faucet.update(db, db_obj=faucet, obj_in={
+                                            "status": FaucetStatus.coin_transfer_retry.value})
+        logger.error(exc)
 
     # gc
     if os.path.exists(filename):
@@ -149,19 +152,39 @@ def get_address_from_csv(url, filename):
 
 
 if __name__ == "__main__":
-    with SessionLocal() as db:
-        faucet = faucet_crud.faucet.get_recent_one_by_status(
-            db, status=FaucetStatus.init.value)
-        if faucet is None:
-            logger.info('no record found')
-        else:
-            try:
-                t = scrape_twitter(faucet.id, faucet.url,
-                                faucet.created_at, db, faucet)
-                logger.info(t)
-            except Exception as exc:
-                logger.exception(f"{faucet.id} transfer coin error")
-                faucet_crud.faucet.update(db, db_obj=faucet, obj_in={
-                                        "status": FaucetStatus.coin_fail.value})
-                logger.error(exc)
+    if len(sys.argv) > 1 and sys.argv[1] == 'retry':
+        with SessionLocal() as db:
+            faucet = faucet_crud.faucet.get_one_by_retry(db)
+            if faucet is None:
+                logger.info('no retry record found')
+            else:
+                # coin transfer retry
+                try:
+                    logger.info(f'id since address: {faucet.address}, retry {faucet.retry}')
+                    txn = p2p_tranfer(faucet.network, faucet.address, faucet.amount)
+                    logger.info({"address": faucet.address, "status": FaucetStatus.success.value,
+                                "transfered_txn": txn, "transafered_at": datetime.utcnow()})
+                    faucet_crud.faucet.update(db, db_obj=faucet, obj_in={
+                                            "address": faucet.address, "status": FaucetStatus.success.value, "transfered_txn": txn, "transfered_at": datetime.utcnow()})
+                except Exception as exc:
+                    logger.exception(f"{faucet.id} transfer coin error")
+                    faucet_crud.faucet.update(db, db_obj=faucet, obj_in={
+                                                        "retry": faucet.retry + 1})
+                    logger.error(exc)
+    else:
+        with SessionLocal() as db:
+            faucet = faucet_crud.faucet.get_recent_one_by_status(
+                db, status=FaucetStatus.init.value)
+            if faucet is None:
+                logger.info('no record found')
+            else:
+                try:
+                    t = scrape_twitter(faucet.id, faucet.url,
+                                    faucet.created_at, db, faucet)
+                    logger.info(t)
+                except Exception as exc:
+                    logger.exception(f"{faucet.id} twint error")
+                    faucet_crud.faucet.update(db, db_obj=faucet, obj_in={
+                                            "status": FaucetStatus.coin_fail.value})
+                    logger.error(exc)
 

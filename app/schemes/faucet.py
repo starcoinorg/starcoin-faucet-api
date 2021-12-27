@@ -51,6 +51,7 @@ class FaucetStatus(int, Enum):
     # transfer fail
     coin_fail = 41
     coin_already_transfered = 42
+    coin_transfer_retry = 43
 
 # binding
 class FaucetNetwork(str, Enum):

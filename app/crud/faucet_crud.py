@@ -76,5 +76,15 @@ class CRUDFaucet(CRUDBase[Faucet, FaucetCreate, FaucetUpdate]):
         )
         return q.first()
 
+    def get_one_by_retry(self, db: Session) -> Faucet:
+        q = db.query(self.model)
+        q = q.filter(
+            Faucet.status ==  FaucetStatus.coin_transfer_retry.value
+        )
+        q = q.filter(
+            Faucet.retry < 3
+        )
+        return q.first()
+
 
 faucet = CRUDFaucet(Faucet)
