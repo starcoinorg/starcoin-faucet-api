@@ -90,6 +90,7 @@ def scrape_twitter(id, url, created_at, db: Session, faucet):
 
 
 def p2p_tranfer(network, address, amount):
+    logger.info('cron p2p_tranfer network={}, address={}, amount={}'.format(network, address, amount))
     if not address or not amount:
         raise Exception('wrong args')
 

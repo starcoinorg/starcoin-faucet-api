@@ -81,6 +81,7 @@ def scrape_twitter(self, id, url, created_at):
 
 
 def p2p_tranfer(network ,address, amount):
+    logger.info('worker p2p_tranfer network={}, address={}, amount={}'.format(network, address, amount))
     if not address or not amount:
         raise Exception('wrong args')
 
