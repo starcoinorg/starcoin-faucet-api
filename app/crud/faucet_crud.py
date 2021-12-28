@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import or_, and_
 from app.crud.base import CRUDBase
 from app.models.faucet import Faucet
-from app.schemes.faucet import FaucetCreate, FaucetUpdate, FaucetStatus
+from app.schemes.faucet import FaucetCreate, FaucetMaxRetry, FaucetUpdate, FaucetStatus
 from app.utils import paginate
 from app.db.base_class import Page
 from datetime import datetime, timedelta
@@ -76,13 +76,29 @@ class CRUDFaucet(CRUDBase[Faucet, FaucetCreate, FaucetUpdate]):
         )
         return q.first()
 
-    def get_one_by_retry(self, db: Session) -> Faucet:
+    def get_one_by_transfer_retry(self, db: Session) -> Faucet:
         q = db.query(self.model)
         q = q.filter(
             Faucet.status ==  FaucetStatus.coin_transfer_retry.value
         )
         q = q.filter(
-            Faucet.retry < 3
+            Faucet.transfer_retry < FaucetMaxRetry.transfer.value
+        )
+        q = q.order_by(
+            Faucet.created_at.desc()
+        )
+        return q.first()
+
+    def get_one_by_scrape_retry(self, db: Session) -> Faucet:
+        q = db.query(self.model)
+        q = q.filter(
+            Faucet.status ==  FaucetStatus.coin_scrape_retry.value
+        )
+        q = q.filter(
+            Faucet.scrape_retry < FaucetMaxRetry.scrape.value
+        )
+        q = q.order_by(
+            Faucet.created_at.desc()
         )
         return q.first()
 

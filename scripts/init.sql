@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS `faucet`;
 
-CREATE TABLE `faucet` (
+CREATE TABLE IF `faucet` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`network` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`platform` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
@@ -21,3 +21,13 @@ CREATE TABLE `faucet` (
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
+
+ALTER TABLE
+    faucet 
+ADD 
+    COLUMN scrape_retry SMALLINT NOT NULL comment '';
+
+ALTER TABLE
+    faucet 
+ADD 
+    COLUMN transfer_retry SMALLINT NOT NULL comment '';

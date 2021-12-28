@@ -3,6 +3,7 @@ from enum import Enum
 from pydantic import BaseModel, Field
 from typing import List, Optional
 from app.core.config import settings
+from app.sdk import transfer
 
 
 class FaucetBase(BaseModel):
@@ -52,6 +53,12 @@ class FaucetStatus(int, Enum):
     coin_fail = 41
     coin_already_transfered = 42
     coin_transfer_retry = 43
+    coin_scrape_retry = 44
+
+class FaucetMaxRetry(int, Enum):
+    transfer = 4
+    scrape = 4
+   
 
 # binding
 class FaucetNetwork(str, Enum):
