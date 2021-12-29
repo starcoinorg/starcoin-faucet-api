@@ -21,20 +21,23 @@ SEARCH_TAG = 'StarcoinSTC'
 
 
 def scrape_twitter(db: Session, faucet):
-    address = do_scrape(faucet)
-    if not address:
-        return False, faucet.id, "none address found"
+    if not faucet.address:
+        address = do_scrape(db, faucet)
+        if not address:
+            return False, faucet.id, "none address found"
+        else:
+            faucet.address = address
 
     count = faucet_crud.faucet.get_day_count_by_address(
-        db=db, network=faucet.network, address=address, since=faucet.created_at)
+        db=db, network=faucet.network, address=faucet.address, since=faucet.created_at)
     logger.info(f'address count:{count} {(faucet.created_at)} {faucet.platform}')
     if count > 0:
         faucet_crud.faucet.update(db, db_obj=faucet, obj_in={
-                                  "status": FaucetStatus.coin_already_transfered.value})
+                                "status": FaucetStatus.coin_already_transfered.value})
         return False, faucet.id, "address already transfer"
 
     # coin transfer
-    t = do_transfer(faucet)
+    t = do_transfer(db, faucet)
     return t
 
 
@@ -99,7 +102,7 @@ def get_address_from_csv(url, filename):
 
     return address
 
-def do_scrape(faucet):
+def do_scrape(db, faucet):
     url = faucet.url
     created_at = faucet.created_at
     id = faucet.id
@@ -126,20 +129,19 @@ def do_scrape(faucet):
 
         # file
         address = get_address_from_csv(url, filename)
-        logger.info('id since address : {} {} {}'.format(
-            id, since.strftime("%Y-%m-%d"), address))
 
         # gc
         if os.path.exists(filename):
             os.remove(filename)
 
         if not address:
+            upt_obj = { "status": FaucetStatus.coin_scrape_retry.value,"scrape_retry": faucet.scrape_retry + 1 }
             logger.info('none address found: {} {} {}'.format(id, since.strftime("%Y-%m-%d"), address))
-            faucet_crud.faucet.update(db, db_obj=faucet, obj_in={
-                                                "status": FaucetStatus.coin_scrape_retry.value,
-                                                "scrape_retry": faucet.scrape_retry + 1 })
-            return False
+        else:
+            logger.info('id since address : {} {} {}'.format(id, since.strftime("%Y-%m-%d"), address))
+            upt_obj = { "address": address } 
 
+        faucet_crud.faucet.update(db, db_obj=faucet, obj_in=upt_obj)
         return address
     except Exception as exc:
         faucet_crud.faucet.update(db, db_obj=faucet, obj_in={
@@ -148,7 +150,7 @@ def do_scrape(faucet):
         logger.error(exc)
     return False
 
-def do_transfer(faucet):
+def do_transfer(db, faucet):
     if faucet.status == FaucetStatus.success.value:
         return False, faucet.id, "already transfer"
 
@@ -160,12 +162,10 @@ def do_transfer(faucet):
         txn = p2p_tranfer(faucet.network, faucet.address, faucet.amount)
         logger.info({"address": faucet.address, "status": FaucetStatus.success.value,
                     "transfered_txn": txn, "transafered_at": datetime.utcnow()})
-        faucet_crud.faucet.update(db, db_obj=faucet, obj_in={
-                                "address": faucet.address, "status": FaucetStatus.success.value, "transfered_txn": txn, "transfered_at": datetime.utcnow()})
+        faucet_crud.faucet.update(db, db_obj=faucet, obj_in={"status": FaucetStatus.success.value, "transfered_txn": txn, "transfered_at": datetime.utcnow()})
         return True, faucet.id, "transfer success"
     except Exception as exc:
-        faucet_crud.faucet.update(db, db_obj=faucet, obj_in={
-                                            "transfer_retry": faucet.transfer_retry + 1})
+        faucet_crud.faucet.update(db, db_obj=faucet, obj_in={"status": FaucetStatus.coin_transfer_retry.value, "transfer_retry": faucet.transfer_retry + 1})
         logger.error(exc)
         return False, faucet.id, "transfer failed to do retry"
 
@@ -175,17 +175,18 @@ if __name__ == "__main__":
         with SessionLocal() as db:
             faucet = faucet_crud.faucet.get_one_by_transfer_retry(db)
             if faucet is None:
-                logger.info('no retry record found')
+                logger.info('no transfer_retry record found')
             else:
-                t = do_transfer(faucet)
+                t = do_transfer(db, faucet)
                 logger.info(t)
     elif len(sys.argv) > 1 and sys.argv[1] == 'scrape_retry':
         with SessionLocal() as db:
             faucet = faucet_crud.faucet.get_one_by_scrape_retry(db)
             if faucet is None:
-                logger.info('no retry record found')
+                logger.info('no scrape_retry record found')
             else:
-                do_scrape(faucet)
+                t = scrape_twitter(db, faucet)
+                logger.info(t)
     else:
         with SessionLocal() as db:
             faucet = faucet_crud.faucet.get_recent_one_by_status(
