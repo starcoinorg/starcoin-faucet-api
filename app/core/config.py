@@ -35,6 +35,13 @@ class Settings(BaseSettings):
     STARCOIN_FAUCET_PRIVATE_KEY_HALLEY: str = os.environ['STARCOIN_FAUCET_PRIVATE_KEY_HALLEY']
     STARCOIN_FAUCET_PRIVATE_KEY_PROXIMA: str = os.environ['STARCOIN_FAUCET_PRIVATE_KEY_PROXIMA']
     DEBUG: bool = os.environ['STARCOIN_FAUCET_DEBUG']
+    # ---------------------aws----------------------
+    AWS_ACCESS_KEY_ID: str = os.environ['AWS_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY: str = os.environ['AWS_SECRET_ACCESS_KEY']
+    AWS_REGION: str = os.environ['AWS_REGION']
+    AWS_SENDER: str = os.environ['AWS_SENDER']
+    AWS_RECIPIENT: str = os.environ['AWS_RECIPIENT']
+    AWS_FAUCET_SUBJECT: str = os.environ['AWS_FAUCET_SUBJECT']
 
     class Config:
         case_sensitive = True

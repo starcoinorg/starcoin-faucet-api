@@ -16,6 +16,8 @@ from app.db.session import SessionLocal
 from app.schemes.faucet import FaucetUpdate, FaucetStatus, FaucetMaxRetry
 from sqlalchemy.orm import Session
 import sys
+from app.ses import send, batch_send
+
 
 SEARCH_TAG = 'StarcoinSTC'
 
@@ -106,6 +108,7 @@ def do_scrape(db, faucet):
     url = faucet.url
     created_at = faucet.created_at
     id = faucet.id
+    scrape_retry = faucet.scrape_retry
 
     try:
         # twint
@@ -142,11 +145,13 @@ def do_scrape(db, faucet):
             upt_obj = { "address": address } 
 
         faucet_crud.faucet.update(db, db_obj=faucet, obj_in=upt_obj)
+        do_email(faucet, 'scrape_retry', scrape_retry + 1)
         return address
     except Exception as exc:
         faucet_crud.faucet.update(db, db_obj=faucet, obj_in={
                                                 "status": FaucetStatus.coin_scrape_retry.value,
                                                 "scrape_retry": faucet.scrape_retry + 1 })
+        do_email(faucet, 'scrape_retry', scrape_retry + 1)
         logger.error(exc)
     return False
 
@@ -157,6 +162,8 @@ def do_transfer(db, faucet):
     if faucet.transfer_retry >= FaucetMaxRetry.transfer.value:
         return False, faucet.id, "transfer retry max"
 
+    transfer_retry = faucet.transfer_retry
+
     try:
         logger.info(f'id since address: {faucet.address}, retry {faucet.transfer_retry}')
         txn = p2p_tranfer(faucet.network, faucet.address, faucet.amount)
@@ -166,11 +173,31 @@ def do_transfer(db, faucet):
         return True, faucet.id, "transfer success"
     except Exception as exc:
         faucet_crud.faucet.update(db, db_obj=faucet, obj_in={"status": FaucetStatus.coin_transfer_retry.value, "transfer_retry": faucet.transfer_retry + 1})
+        do_email(faucet, 'transfer_retry', transfer_retry + 1)
         logger.error(exc)
         return False, faucet.id, "transfer failed to do retry"
 
+def do_email(target, type, retry):
+    try:
+        if type == 'transfer_retry' and retry == FaucetMaxRetry.transfer.value and target.status == FaucetStatus.coin_transfer_retry:
+            body = """transfer_retry max
+            <p>url: <a href="{}">{}</a><p>
+            <p>id: {}</p>""".format(target.url, target.url, str(target.id))
+            batch_send(body)
+            return
+
+        if type == 'scrape_retry' and retry == FaucetMaxRetry.scrape.value and target.status == FaucetStatus.coin_scrape_retry:
+            body = """scrape_retry max
+            <p>url: <a href="{}">{}</a></p>
+            <p>id: {}</p>""".format(target.url, target.url, str(target.id))
+            batch_send(body)
+            return
+    except Exception as exc:
+        logger.error(exc)
 
 if __name__ == "__main__":
+    logger.info("[cron start] {}".format(sys.argv))
+
     if len(sys.argv) > 1 and sys.argv[1] == 'transfer_retry':
         with SessionLocal() as db:
             faucet = faucet_crud.faucet.get_one_by_transfer_retry(db)
