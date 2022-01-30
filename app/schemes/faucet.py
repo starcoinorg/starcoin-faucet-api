@@ -11,6 +11,7 @@ class FaucetBase(BaseModel):
 
 class Faucet(BaseModel):
     network: Optional[str] = Field(None, title="network")
+    address: Optional[str] = Field(None, title="address")
     platform: Optional[str] = Field(None, title="platform")
     url: Optional[str] = Field(None, title="url")
     amount: Optional[str] = Field(0, title="amount")

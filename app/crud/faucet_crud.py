@@ -28,21 +28,18 @@ class CRUDFaucet(CRUDBase[Faucet, FaucetCreate, FaucetUpdate]):
         ))
         return q.count()
 
-    def get_day_count_by_user(self, db: Session, *, url: str, platform: str, network: str) -> int:
+    def get_create_count_by_address(self, db: Session, *, address: str, network: str, ) -> int:
         q = db.query(self.model)
 
         since = datetime.utcnow().date()
         until = datetime.utcnow().date() + timedelta(days=1)
 
         q = q.filter(
-            Faucet.url == url
+            Faucet.address == address
         )
         q = q.filter(
-            Faucet.platform == platform
+            Faucet.network == network
         )
-        # q = q.filter(
-        #     Faucet.network == network
-        # )
         q = q.filter(and_(
             Faucet.created_at > since,
             Faucet.created_at < until,

@@ -50,7 +50,7 @@ def validate_url(url):
 
 # !!! begin with 0x end by \b
 def get_address(text):
-    o = re.search(r'\b0x.*?\b', text)
+    o = re.search(r'\b0x.{32}\b', text)
     if o:
         return o.group()
     return ''

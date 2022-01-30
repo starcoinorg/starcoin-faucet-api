@@ -3,4 +3,4 @@
 # retry every 20 seconds
 * * * * * root sleep 20 && /usr/local/bin/python /app/app/cron.py transfer_retry >> /app/cron.log 2>&1
 # retry every 40 seconds
-* * * * * root sleep 40 && /usr/local/bin/python /app/app/cron.py scrape_retry >> /app/cron.log 2>&1
+# * * * * * root sleep 40 && /usr/local/bin/python /app/app/cron.py scrape_retry >> /app/cron.log 2>&1

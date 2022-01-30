@@ -221,7 +221,8 @@ if __name__ == "__main__":
             if faucet is None:
                 logger.info('no record found')
             else:
-                t = scrape_twitter(db, faucet)
+                # t = scrape_twitter(db, faucet)
+                t = do_transfer(db, faucet)
                 logger.info(t)
 
 

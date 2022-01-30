@@ -13,7 +13,6 @@ CREATE TABLE IF `faucet` (
 	`created_at` DATETIME NULL DEFAULT NULL,
 	`updated_at` DATETIME NULL DEFAULT NULL,
 	PRIMARY KEY (`id`) USING BTREE,
-	INDEX `ix_faucet_id` (`id`) USING BTREE,
 	INDEX `ix_faucet_address` (`address`) USING BTREE,
 	INDEX `ix_faucet_address_network_transfered_at_status` (`address`, `network`, `transfered_at`, `status`) USING BTREE,
 	INDEX `ix_faucet_url_platform_created_at_status` (`url`, `platform`, `created_at`, `status`) USING BTREE

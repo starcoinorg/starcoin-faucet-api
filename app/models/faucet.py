@@ -23,3 +23,4 @@ class Faucet(Base):
     updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
 
     Index('ix_faucet_platform_transfered_at_status', platform, transfered_at, status)
+    Index('ix_faucet_address_network', address, network)
