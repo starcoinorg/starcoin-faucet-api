@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS `faucet`;
+DROP TABLE IF EXISTS `faucet_address`;
 
-CREATE TABLE IF `faucet` (
+CREATE TABLE IF `faucet_address` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`network` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`platform` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
@@ -22,11 +22,11 @@ ENGINE=InnoDB
 ;
 
 ALTER TABLE
-    faucet 
+    faucet_address 
 ADD 
     COLUMN scrape_retry SMALLINT NOT NULL comment '';
 
 ALTER TABLE
-    faucet 
+    faucet_address 
 ADD 
     COLUMN transfer_retry SMALLINT NOT NULL comment '';

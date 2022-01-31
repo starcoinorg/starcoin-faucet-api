@@ -8,6 +8,8 @@ import datetime
 
 
 class Faucet(Base):
+    __tablename__ = 'faucet_address'
+
     id = Column(Integer, primary_key=True, index=True)
     network = Column(String(20), nullable=True)
     platform = Column(String(20), nullable=True)

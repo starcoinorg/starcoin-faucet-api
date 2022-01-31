@@ -20,13 +20,13 @@ async def create(url: str, network: str = FaucetNetwork.default, db: Session = D
     logger.info(f'create address={address}')
     if not address:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Wrong address")
+            status_code=status.HTTP_400_BAD_REQUEST, detail="failed, invalid address ( start with 0x, len 34)")
 
     count = faucet_crud.faucet.get_create_count_by_address(
         db=db, address=address, network=network)
     if count > 0:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="dup address, try tomorrow")
+            status_code=status.HTTP_400_BAD_REQUEST, detail="failed, address once a day, try tomorrow")
 
     # sdk
     cnf = FaucetNetworkMap[network]
@@ -35,12 +35,12 @@ async def create(url: str, network: str = FaucetNetwork.default, db: Session = D
     exist = cli.is_account_exist(address)
     if not exist:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="address doesn't exist")
+            status_code=status.HTTP_400_BAD_REQUEST, detail="failed, address doesn't exist")
 
     token = cli.get_account_token(address, 'STC', 'STC')
     if not token or token <= 0:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="invalid network balance")
+            status_code=status.HTTP_400_BAD_REQUEST, detail="failed, network balance 0")
 
 
     # !! dup record fliter
