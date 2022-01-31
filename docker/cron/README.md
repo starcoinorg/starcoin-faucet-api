@@ -25,7 +25,7 @@
 
 
 7. tag
-`docker tag starcoin/starcoin-faucet-cron:latest starcoin/starcoin-faucet-cron:0.4.2`
+`docker tag starcoin/starcoin-faucet-cron:latest starcoin/starcoin-faucet-cron:0.6.1`
 
 8. publish to docker hub
-`docker push starcoin/starcoin-faucet-cron:0.4.2`
+`docker push starcoin/starcoin-faucet-cron:0.6.1`
