@@ -1,5 +1,7 @@
 FROM starcoin/starcoin-faucet-cron-base:latest
 
+COPY . /app
+
 WORKDIR /app/starcoin-sdk-python
 RUN python setup.py install
 
