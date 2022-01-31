@@ -21,11 +21,10 @@
 `./rebuild.sh`
 
 6. inspect a running container.
-`docker exec -it <CONTAINER_ID> /bin/bash`
-
+   `docker exec -it <CONTAINER_ID> /bin/bash`
 
 7. tag
-`docker tag starcoin/starcoin-faucet-cron:latest starcoin/starcoin-faucet-cron:0.6.1`
+   `docker tag starcoin/starcoin-faucet-cron:latest starcoin/starcoin-faucet-cron:0.7.1`
 
 8. publish to docker hub
-`docker push starcoin/starcoin-faucet-cron:0.6.1`
+   `docker push starcoin/starcoin-faucet-cron:0.7.1`

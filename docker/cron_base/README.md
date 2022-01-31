@@ -20,7 +20,7 @@
    `docker exec -it <CONTAINER_ID> /bin/bash`
 
 7. tag
-   `docker tag starcoin/starcoin-faucet-cron-base:latest starcoin/starcoin-faucet-cron:0.1.0`
+   `docker tag starcoin/starcoin-faucet-cron-base:latest starcoin/starcoin-faucet-cron:0.2.0`
 
 8. publish to docker hub
-   `docker push starcoin/starcoin-faucet-cron-base:0.1.0`
+   `docker push starcoin/starcoin-faucet-cron-base:0.2.0`
