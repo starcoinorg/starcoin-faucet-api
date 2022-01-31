@@ -8,10 +8,6 @@
 
 `./build.sh`
 
-3. start container
-
-`./run.sh`
-
 4. check log
 
 `docker logs -f starcoin-faucet-cron-base`
@@ -21,11 +17,10 @@
 `./rebuild.sh`
 
 6. inspect a running container.
-`docker exec -it <CONTAINER_ID> /bin/bash`
-
+   `docker exec -it <CONTAINER_ID> /bin/bash`
 
 7. tag
-`docker tag starcoin/starcoin-faucet-cron-base:latest starcoin/starcoin-faucet-cron:0.1.0`
+   `docker tag starcoin/starcoin-faucet-cron-base:latest starcoin/starcoin-faucet-cron:0.1.0`
 
 8. publish to docker hub
-`docker push starcoin/starcoin-faucet-cron-base:0.1.0`
+   `docker push starcoin/starcoin-faucet-cron-base:0.1.0`
