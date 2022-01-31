@@ -29,9 +29,7 @@ async def create(url: str, network: str = FaucetNetwork.default, db: Session = D
             status_code=status.HTTP_400_BAD_REQUEST, detail="failed, address once a day, try tomorrow")
 
     # sdk
-    cnf = FaucetNetworkMap[network]
-    cli = client.Client(cnf.value['url'])
-    chain_id = cnf.value['chainId']
+    cli = client.Client('https://main-seed.starcoin.org')
     exist = cli.is_account_exist(address)
     if not exist:
         raise HTTPException(
