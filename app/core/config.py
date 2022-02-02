@@ -43,7 +43,7 @@ class Settings(BaseSettings):
     AWS_RECIPIENT: str = os.environ['AWS_RECIPIENT']
     AWS_FAUCET_SUBJECT: str = os.environ['AWS_FAUCET_SUBJECT']
     #
-    SESSION_SECRET: str = os.environ['SESSION_SECRET']
+    STARCOIN_FAUCET_API_SESSION_SECRET: str = os.environ['STARCOIN_FAUCET_API_SESSION_SECRET']
 
 
     class Config:

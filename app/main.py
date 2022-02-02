@@ -17,7 +17,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.add_middleware(SessionMiddleware, secret_key=settings.SESSION_SECRET)
+app.add_middleware(SessionMiddleware, secret_key=settings.STARCOIN_FAUCET_API_SESSION_SECRET)
 #
 app.include_router(faucet.router, prefix='')
 #
