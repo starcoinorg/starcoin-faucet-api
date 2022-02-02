@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: faucet-cron
-          image: starcoin/starcoin-faucet-cron:0.7.2
+          image: starcoin/starcoin-faucet-cron:0.7.3
           env:
             - name: STARCOIN_FAUCET_DEBUG
               value: "False"
