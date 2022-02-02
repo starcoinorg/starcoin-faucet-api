@@ -1,5 +1,5 @@
 from inspect import indentsize
-from fastapi import APIRouter, Depends, HTTPException, status, Query, BackgroundTasks
+from fastapi import APIRouter, Depends, HTTPException, status, Query, BackgroundTasks, Cookie
 from sqlalchemy.orm import Session
 from app import deps
 from app.models.faucet import Faucet as FaucetModel
@@ -8,12 +8,27 @@ from app.crud import faucet_crud
 from app.schemes.faucet import Faucet, FaucetNetwork, FaucetAmount, FaucetNetworkMap, FaucetOutList
 from loguru import logger
 from starcoin.sdk import (utils, client, local_account, auth_key)
+from captcha.image import ImageCaptcha
+import random
+import string
+from fastapi.requests import Request
+from fastapi.responses import StreamingResponse
+import io
+from typing import Optional
+from starlette.middleware.sessions import SessionMiddleware
+
+
 
 router = APIRouter()
 
+def captcha_generator(size: int):
+    return ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(size))
 
 @router.post("/create", name="")
-async def create(url: str, network: str = FaucetNetwork.default, db: Session = Depends(deps.get_db)):
+async def create(request: Request, url: str, captcha: str, network: str = FaucetNetwork.default, db: Session = Depends(deps.get_db)):
+    if not request.session["captcha"] or request.session["captcha"] != captcha.upper():
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="failed, invalid captcha")
 
     url = url.lower()
     address = get_address(url)
@@ -48,6 +63,14 @@ async def create(url: str, network: str = FaucetNetwork.default, db: Session = D
     item = faucet_crud.faucet.create(db=db, obj_in=obj_in)
 
     return {"status": item.status}
+
+@router.get("/captcha", name="")
+def generate_captcha(request: Request):
+    image = ImageCaptcha()
+    v = captcha_generator(5)
+    data = image.generate(v)
+    request.session["captcha"] = v
+    return StreamingResponse(io.BytesIO(data.getvalue()), media_type="image/png")
 
 # @router.get("/recently", name="")
 # async def recently(network: str, db: Session = Depends(deps.get_db)):
