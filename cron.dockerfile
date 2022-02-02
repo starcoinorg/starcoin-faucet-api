@@ -1,11 +1,6 @@
-FROM starcoin/starcoin-faucet-cron-base:latest
+FROM starcoin/starcoin-faucet-base:latest
 
 COPY . /app
-
-WORKDIR /app/starcoin-sdk-python
-RUN python setup.py install
-
-WORKDIR /app
 
 ENV PYTHONPATH /app
 
