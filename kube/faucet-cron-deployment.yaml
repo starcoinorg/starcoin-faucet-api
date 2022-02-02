@@ -48,6 +48,11 @@ spec:
                 secretKeyRef:
                   name: faucet-account
                   key: privatekey
+            - name: STARCOIN_FAUCET_API_SESSION_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: faucet-api-session-secret
+                  key: session_secret
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
