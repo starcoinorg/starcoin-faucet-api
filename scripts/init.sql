@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS `faucet_address`;
 
-CREATE TABLE IF `faucet_address` (
+CREATE TABLE IF NOT EXISTS`faucet_address` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`network` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`platform` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8_general_ci',

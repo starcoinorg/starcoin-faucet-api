@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: faucet-api
-          image: starcoin/starcoin-faucet-api:0.3.0
+          image: starcoin/starcoin-faucet-api:0.4.0
           ports:
             - containerPort: 8000
           env:
@@ -25,7 +25,7 @@ spec:
             - name: STARCOIN_FAUCET_MYSQL_HOST
               value: "starcoin-db-2.c0bz9kehdvnb.ap-northeast-1.rds.amazonaws.com"
             - name: STARCOIN_FAUCET_MYSQL_PORT
-              value: "3306"  
+              value: "3306"
             - name: STARCOIN_FAUCET_MYSQL_DB
               value: "faucet"
             - name: STARCOIN_FAUCET_MYSQL_USER
@@ -49,4 +49,22 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: faucet-account
-                  key: privatekey          
+                  key: privatekey
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: aws-access-key-id
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secret-access-key
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: AWS_REGION
+              value: "us-west-2"
+            - name: AWS_SENDER
+              value: "westar@gmail.com"
+            - name: AWS_RECIPIENT
+              value: "westar@gmail.com"
+            - name: AWS_FAUCET_SUBJECT
+              value: "Faucet fails"
