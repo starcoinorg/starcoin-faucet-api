@@ -25,13 +25,12 @@ def captcha_generator(size: int):
     return ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(size))
 
 @router.post("/create", name="")
-async def create(request: Request, url: str, captcha: str, network: str = FaucetNetwork.default, db: Session = Depends(deps.get_db)):
+async def create(request: Request, address: str, captcha: str, network: str = FaucetNetwork.default, db: Session = Depends(deps.get_db)):
     if not request.session["captcha"] or request.session["captcha"] != captcha.upper():
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="failed, invalid captcha")
 
-    url = url.lower()
-    address = get_address(url)
+    address = get_address(address.lower())
     logger.info(f'create address={address}')
     if not address:
         raise HTTPException(

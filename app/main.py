@@ -17,7 +17,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.add_middleware(SessionMiddleware, secret_key="$dsdasd$%sa")
+app.add_middleware(SessionMiddleware, secret_key=settings.SESSION_SECRET)
 #
 app.include_router(faucet.router, prefix='')
 #

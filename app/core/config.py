@@ -42,6 +42,9 @@ class Settings(BaseSettings):
     AWS_SENDER: str = os.environ['AWS_SENDER']
     AWS_RECIPIENT: str = os.environ['AWS_RECIPIENT']
     AWS_FAUCET_SUBJECT: str = os.environ['AWS_FAUCET_SUBJECT']
+    #
+    SESSION_SECRET: str = os.environ['SESSION_SECRET']
+
 
     class Config:
         case_sensitive = True
