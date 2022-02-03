@@ -65,8 +65,8 @@ async def create(request: Request, address: str, captcha: str, network: str = Fa
 
 @router.get("/captcha", name="")
 def generate_captcha(request: Request):
-    image = ImageCaptcha()
-    v = captcha_generator(5)
+    image = ImageCaptcha(width=200, height=60, font_sizes=(48, 49, 50))
+    v = captcha_generator(4)
     data = image.generate(v)
     request.session["captcha"] = v
     return StreamingResponse(io.BytesIO(data.getvalue()), media_type="image/png")
