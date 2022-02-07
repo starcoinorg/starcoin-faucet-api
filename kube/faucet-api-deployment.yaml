@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: faucet-api
-          image: starcoin/starcoin-faucet-api:0.4.3
+          image: starcoin/starcoin-faucet-api:0.4.4
           ports:
             - containerPort: 8000
           env:

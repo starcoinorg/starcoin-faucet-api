@@ -16,7 +16,7 @@ kubectl logs -f faucet-api-deployment-6bd5b7d999-mmk47
 
 or
 
-kubectl get pods|grep 'faucet-api-deployment' |grep -v grep |awk -F' ' '{print $1}' | xargs kubectl logs -f
+kubectl get pods|grep 'faucet-api-deployment' |grep Running |grep -v grep |awk -F' ' '{print $1}' | xargs kubectl logs -f
 
 ## start service
 
@@ -48,4 +48,4 @@ kubectl logs -f faucet-cron-deployment-54cc7476bd-l76rr
 
 or
 
-kubectl get pods|grep 'faucet-cron-deployment' |grep -v grep |awk -F' ' '{print $1}' | xargs kubectl logs -f
+kubectl get pods|grep 'faucet-cron-deployment' |grep Running |grep -v grep |awk -F' ' '{print $1}' | xargs kubectl logs -f
