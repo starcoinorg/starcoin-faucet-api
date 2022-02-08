@@ -42,17 +42,17 @@ async def create(request: Request, address: str, captcha: str, network: str = Fa
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="failed, address once a day, try tomorrow")
 
-    # sdk
-    cli = client.Client('https://main-seed.starcoin.org')
-    exist = cli.is_account_exist(address)
-    if not exist:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="failed, address doesn't exist")
+    # address must exists on main net and balance >0
+    # cli = client.Client('https://main-seed.starcoin.org')
+    # exist = cli.is_account_exist(address)
+    # if not exist:
+    #     raise HTTPException(
+    #         status_code=status.HTTP_400_BAD_REQUEST, detail="failed, address doesn't exist")
 
-    token = cli.get_account_token(address, 'STC', 'STC')
-    if not token or token <= 0:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="failed, network balance 0")
+    # token = cli.get_account_token(address, 'STC', 'STC')
+    # if not token or token <= 0:
+    #     raise HTTPException(
+    #         status_code=status.HTTP_400_BAD_REQUEST, detail="failed, network balance 0")
 
 
     # !! dup record fliter
